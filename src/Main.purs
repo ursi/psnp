@@ -129,14 +129,15 @@ ${buildPhase}
         purs compile ${compilerPaths} "$src/**/*.purs"
 
         purs bundle "output/*/*.js" -m Main --main Main -o index.js
-        sed -i "1i \#! urs/bin/node" index.js
-        chmod +x index.js
       '';
 
       installPhase = ''
         mkdir -p $out/bin
-        local ex=$out/bin/index.js
-        cp index.js $out/bin
+        mkdir -p $out/lib
+        cp index.js $out/lib
+        echo "export PATH=$PATH
+        node $out/lib/index.js" > $out/bin/${name}
+        chmod +x $out/bin/${name}
       '';
     }"""
           <^> [ "psnpVersion" /\ version
