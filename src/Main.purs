@@ -1,7 +1,7 @@
 module Main where
 
 import MasonPrelude
-import Data.Argonaut (decodeJson, parseJson)
+import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)
 import Data.List ((:))
 import Data.Set (Set)
 import Data.Set as Set
@@ -148,7 +148,7 @@ ${buildPhase}
             , "buildPhase" /\ buildPhase
             , "compilerPaths" /\ compilerPaths
             ]
-      Left e -> throwError $ error "something went wrong decoding json"
+      Left decodeError -> throwError $ error $ printJsonDecodeError decodeError
     File.write "purescript.nix" nix
 
 attribute :: String
