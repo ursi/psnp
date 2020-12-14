@@ -1,12 +1,23 @@
 {
   outputs = { self, nixpkgs, utils }:
-    utils.simpleShell
-      [
-        "dhall"
-        "dhall-json"
-        "nodejs"
-        "purescript"
-        "spago"
-      ]
+    utils.defaultSystems
+      (pkgs: with pkgs;
+        {
+          defaultPackage = import ./psnp.nix {
+            inherit pkgs;
+            runtimeDeps = [ dhall-json git ];
+          };
+
+          devShell = mkShell {
+            buildInputs = [
+              dhall
+              dhall-json
+              purescript
+              nodejs
+              spago
+            ];
+          };
+        }
+      )
       nixpkgs;
 }
