@@ -149,7 +149,7 @@ ${buildPhase}
             , "compilerPaths" /\ compilerPaths
             ]
       Left decodeError -> throwError $ error $ printJsonDecodeError decodeError
-    File.write "purescript.nix" nix
+    File.write "psnp.nix" nix
 
 attribute :: String
 attribute = "psPackages"
