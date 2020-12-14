@@ -152,7 +152,7 @@ ${buildPhase}
     File.write "purescript.nix" nix
 
 attribute :: String
-attribute = "purescript'"
+attribute = "psPackages"
 
 srcDir :: String
 srcDir = "sources/"
