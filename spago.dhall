@@ -5,7 +5,7 @@
   , "mason-prelude"
   , "node-child-process"
   , "task-file"
-  , "template-strings"
+  , "template-literals"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs" ]
