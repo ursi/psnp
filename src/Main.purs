@@ -46,7 +46,7 @@ main = do
     data_ <- CP.exec "dhall-to-json --file spago.dhall" CP.defaultExecOptions
     nix <- case decodeJson =<< parseJson data_ of
       Right (spago :: Spago) -> do
-        { fetchGits, buildPhase, compilerPaths } <-
+        { fetchGits, compilerPaths } <-
           foldl
             ( \acc name ->
                 ( Obj.lookup name spago.packages
@@ -85,16 +85,12 @@ main = do
       };"""
                                       fgd
                                       : acc.fetchGits
-                                , buildPhase:
-                                    ("        cp -r ${" <> attribute <> "." <> fgd.name <> "} " <> dir)
-                                      : acc.buildPhase
                                 , compilerPaths: ("\"" <> dir <> "src/**/*.purs\"") : acc.compilerPaths
                                 }
                           )
-                          { fetchGits: Nil, buildPhase: Nil, compilerPaths: Nil }
-                          .> \{ fetchGits, buildPhase, compilerPaths } ->
+                          { fetchGits: Nil, compilerPaths: Nil }
+                          .> \{ fetchGits, compilerPaths } ->
                               { fetchGits: intercalate "\n\n" fetchGits
-                              , buildPhase: intercalate "\n" buildPhase
                               , compilerPaths: intercalate " " compilerPaths
                               }
                       )
@@ -121,7 +117,13 @@ ${fetchGits}
       buildPhase = ''
         mkdir ${srcDir}
 
-${buildPhase}
+        \${
+          builtins.concatStringsSep ";"
+          (map
+            (name: "cp -r \${psPackages.\${name}} ${srcDir}\${name}")
+            (builtins.attrNames psPackages)
+          )
+        }
 
         purs compile ${compilerPaths} "$src/**/*.purs"
 
@@ -143,7 +145,6 @@ ${buildPhase}
               , name: spago.name
               , version: spago.version
               , srcDir
-              , buildPhase
               , compilerPaths
               }
       Left decodeError -> throwError $ error $ printJsonDecodeError decodeError
