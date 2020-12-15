@@ -11,7 +11,7 @@ Generate Nix packages from PureScript projects.
 
 ## I don't use flakes
 
-You can still easily build the package using [flake-compat](https://github.com/edolstra/flake-compat):
+Don't worry! You can still easily build this package (or any flake) using [flake-compat](https://github.com/edolstra/flake-compat):
 
 ```nix
 let
