@@ -186,11 +186,3 @@ getAllDeps packages = foldl go mempty
       )
         # fromMaybe deps
     )
-
-type Test
-  = { string :: Maybe String
-    , array :: Maybe (Array Int)
-    }
-
-test :: Test
-test = (mempty :: Test) { string = Just "hi" }
