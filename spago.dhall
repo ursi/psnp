@@ -5,6 +5,7 @@
   , "mason-prelude"
   , "node-child-process"
   , "task-file"
+  , "task-node-child-process"
   , "template-literals"
   ]
 , packages = ./packages.dhall
