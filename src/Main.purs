@@ -138,7 +138,7 @@ ${fetchGits}
         mkdir -p $out/lib
         cp index.js $out/lib
         echo "export PATH=$PATH
-        node $out/lib/index.js" > $out/bin/${name}
+        node $out/lib/index.js \\$@" > $out/bin/${name}
         chmod +x $out/bin/${name}
       '';
     }"""
