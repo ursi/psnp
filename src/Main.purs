@@ -17,7 +17,7 @@ import Task.ChildProcess as CP
 import Task.File as File
 
 version :: String
-version = "0.1.2"
+version = "0.2.0"
 
 projectName :: String
 projectName = "psnp"
