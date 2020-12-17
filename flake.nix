@@ -5,9 +5,10 @@
         {
           defaultPackage = (import ./psnp.nix {
             inherit pkgs;
-            runtimeDeps = [ dhall-json git ];
           }).overrideAttrs
-            (_: {
+            (old: {
+                buildInputs = [ dhall-json git ] ++ old.buildInputs;
+
                 meta = {
                   description = "PureScript Nix Packager - generate nix packages from PureScript projects";
                   homepage = "https://github.com/ursi/psnp";
