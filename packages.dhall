@@ -1,5 +1,5 @@
-(   https://raw.githubusercontent.com/ursi/purescript-package-set/dev/packages.dhall sha256:60fe479bf10d479307ac094a5eaa1d94372a573d86395939f75e256427a34156
-  ⫽ https://github.com/purescript/package-sets/releases/download/psc-0.13.8-20201206/packages.dhall sha256:c9ffd7577fb8ee2197309591d7ccc0f506ee37b9078866f0ef159f5abbb1b32b
+(   https://raw.githubusercontent.com/ursi/purescript-package-set/dev/packages.dhall sha256:9b73a69caf280beb4b9a416bf20141212f62a2596c44db3264a99e77afacb699
+  ⫽ https://github.com/purescript/package-sets/releases/download/psc-0.13.8-20201217/packages.dhall sha256:f46d45e29977f3b57717b56d20a5ceac12532224516eea3012a4688f22ac1539
   ⫽ { template-literals =
       { dependencies = [ "argonaut-codecs", "effect" ]
       , repo = "https://github.com/nonbili/purescript-template-literals"
