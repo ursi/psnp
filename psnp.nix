@@ -364,8 +364,8 @@
 
       substitute = builtins.fetchGit {
         url = "https://github.com/ursi/purescript-substitute.git";
-        rev = "985805fd788f929fe6f2c9dc70ea38c5e02993c3";
-        ref = "refs/heads/master";
+        rev = "46e1dddaa1397809ed821b14ba04498002bfb606";
+        ref = "refs/tags/v0.1.0";
       };
 
       tailrec = builtins.fetchGit {
