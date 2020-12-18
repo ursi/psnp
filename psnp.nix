@@ -362,6 +362,12 @@
         ref = "refs/tags/v4.0.2";
       };
 
+      substitute = builtins.fetchGit {
+        url = "https://github.com/ursi/purescript-substitute.git";
+        rev = "985805fd788f929fe6f2c9dc70ea38c5e02993c3";
+        ref = "refs/heads/master";
+      };
+
       tailrec = builtins.fetchGit {
         url = "https://github.com/purescript/purescript-tailrec.git";
         rev = "6e26342de46336c7af35c79e355d98721b7c0bb0";
@@ -384,12 +390,6 @@
         url = "https://github.com/ursi/purescript-task-node-child-process.git";
         rev = "3dbd16412fd04f15bac97d3359afabaf546b9d01";
         ref = "refs/tags/v0.1.0";
-      };
-
-      template-literals = builtins.fetchGit {
-        url = "https://github.com/nonbili/purescript-template-literals";
-        rev = "481bbfaa6ef5baa86f1bf8c80a07aa3669b01010";
-        ref = "refs/tags/v0.2.0";
       };
 
       transformers = builtins.fetchGit {
@@ -449,7 +449,7 @@
           )
         }
 
-        purs compile "sources/argonaut/src/**/*.purs" "sources/argonaut-codecs/src/**/*.purs" "sources/argonaut-core/src/**/*.purs" "sources/argonaut-traversals/src/**/*.purs" "sources/arraybuffer-types/src/**/*.purs" "sources/arrays/src/**/*.purs" "sources/bifunctors/src/**/*.purs" "sources/console/src/**/*.purs" "sources/const/src/**/*.purs" "sources/contravariant/src/**/*.purs" "sources/control/src/**/*.purs" "sources/datetime/src/**/*.purs" "sources/debuggest/src/**/*.purs" "sources/distributive/src/**/*.purs" "sources/effect/src/**/*.purs" "sources/either/src/**/*.purs" "sources/enums/src/**/*.purs" "sources/exceptions/src/**/*.purs" "sources/exists/src/**/*.purs" "sources/foldable-traversable/src/**/*.purs" "sources/foreign/src/**/*.purs" "sources/foreign-object/src/**/*.purs" "sources/functions/src/**/*.purs" "sources/functors/src/**/*.purs" "sources/gen/src/**/*.purs" "sources/generics-rep/src/**/*.purs" "sources/globals/src/**/*.purs" "sources/identity/src/**/*.purs" "sources/integers/src/**/*.purs" "sources/invariant/src/**/*.purs" "sources/js-date/src/**/*.purs" "sources/js-timers/src/**/*.purs" "sources/lazy/src/**/*.purs" "sources/lists/src/**/*.purs" "sources/mason-prelude/src/**/*.purs" "sources/math/src/**/*.purs" "sources/maybe/src/**/*.purs" "sources/newtype/src/**/*.purs" "sources/node-buffer/src/**/*.purs" "sources/node-child-process/src/**/*.purs" "sources/node-fs/src/**/*.purs" "sources/node-path/src/**/*.purs" "sources/node-streams/src/**/*.purs" "sources/nonempty/src/**/*.purs" "sources/now/src/**/*.purs" "sources/nullable/src/**/*.purs" "sources/ordered-collections/src/**/*.purs" "sources/orders/src/**/*.purs" "sources/parallel/src/**/*.purs" "sources/partial/src/**/*.purs" "sources/point-free/src/**/*.purs" "sources/posix-types/src/**/*.purs" "sources/prelude/src/**/*.purs" "sources/profunctor/src/**/*.purs" "sources/profunctor-lenses/src/**/*.purs" "sources/proxy/src/**/*.purs" "sources/record/src/**/*.purs" "sources/refs/src/**/*.purs" "sources/st/src/**/*.purs" "sources/strings/src/**/*.purs" "sources/tailrec/src/**/*.purs" "sources/task/src/**/*.purs" "sources/task-file/src/**/*.purs" "sources/task-node-child-process/src/**/*.purs" "sources/template-literals/src/**/*.purs" "sources/transformers/src/**/*.purs" "sources/tuples/src/**/*.purs" "sources/type-equality/src/**/*.purs" "sources/typelevel-prelude/src/**/*.purs" "sources/unfoldable/src/**/*.purs" "sources/unsafe-coerce/src/**/*.purs" "$src/**/*.purs"
+        purs compile "sources/argonaut/src/**/*.purs" "sources/argonaut-codecs/src/**/*.purs" "sources/argonaut-core/src/**/*.purs" "sources/argonaut-traversals/src/**/*.purs" "sources/arraybuffer-types/src/**/*.purs" "sources/arrays/src/**/*.purs" "sources/bifunctors/src/**/*.purs" "sources/console/src/**/*.purs" "sources/const/src/**/*.purs" "sources/contravariant/src/**/*.purs" "sources/control/src/**/*.purs" "sources/datetime/src/**/*.purs" "sources/debuggest/src/**/*.purs" "sources/distributive/src/**/*.purs" "sources/effect/src/**/*.purs" "sources/either/src/**/*.purs" "sources/enums/src/**/*.purs" "sources/exceptions/src/**/*.purs" "sources/exists/src/**/*.purs" "sources/foldable-traversable/src/**/*.purs" "sources/foreign/src/**/*.purs" "sources/foreign-object/src/**/*.purs" "sources/functions/src/**/*.purs" "sources/functors/src/**/*.purs" "sources/gen/src/**/*.purs" "sources/generics-rep/src/**/*.purs" "sources/globals/src/**/*.purs" "sources/identity/src/**/*.purs" "sources/integers/src/**/*.purs" "sources/invariant/src/**/*.purs" "sources/js-date/src/**/*.purs" "sources/js-timers/src/**/*.purs" "sources/lazy/src/**/*.purs" "sources/lists/src/**/*.purs" "sources/mason-prelude/src/**/*.purs" "sources/math/src/**/*.purs" "sources/maybe/src/**/*.purs" "sources/newtype/src/**/*.purs" "sources/node-buffer/src/**/*.purs" "sources/node-child-process/src/**/*.purs" "sources/node-fs/src/**/*.purs" "sources/node-path/src/**/*.purs" "sources/node-streams/src/**/*.purs" "sources/nonempty/src/**/*.purs" "sources/now/src/**/*.purs" "sources/nullable/src/**/*.purs" "sources/ordered-collections/src/**/*.purs" "sources/orders/src/**/*.purs" "sources/parallel/src/**/*.purs" "sources/partial/src/**/*.purs" "sources/point-free/src/**/*.purs" "sources/posix-types/src/**/*.purs" "sources/prelude/src/**/*.purs" "sources/profunctor/src/**/*.purs" "sources/profunctor-lenses/src/**/*.purs" "sources/proxy/src/**/*.purs" "sources/record/src/**/*.purs" "sources/refs/src/**/*.purs" "sources/st/src/**/*.purs" "sources/strings/src/**/*.purs" "sources/substitute/src/**/*.purs" "sources/tailrec/src/**/*.purs" "sources/task/src/**/*.purs" "sources/task-file/src/**/*.purs" "sources/task-node-child-process/src/**/*.purs" "sources/transformers/src/**/*.purs" "sources/tuples/src/**/*.purs" "sources/type-equality/src/**/*.purs" "sources/typelevel-prelude/src/**/*.purs" "sources/unfoldable/src/**/*.purs" "sources/unsafe-coerce/src/**/*.purs" "$src/**/*.purs"
 
         purs bundle "output/*/*.js" -m Main --main Main -o index.js
       '';

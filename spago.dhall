@@ -3,9 +3,9 @@
   [ "argonaut"
   , "exceptions"
   , "mason-prelude"
+  , "substitute"
   , "task-file"
   , "task-node-child-process"
-  , "template-literals"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs" ]
