@@ -9,6 +9,7 @@
         in
           {
             defaultPackage = (import (./. + "/${name}.nix") {
+              inherit (nixpkgs) lib;
               inherit pkgs;
             }).overrideAttrs
               (old:
