@@ -35,15 +35,19 @@ type Spago
     , name :: String
     , packages :: Object Package
     , sources :: Array String
-    , psnp :: { version :: String }
+    , psnp ::
+        { command :: Maybe String
+        , version :: String
+        }
     }
 
 decodeSpago :: Json -> JsonDecodeError \/ Spago
 decodeSpago =
   decodeJson
     >=> \almostSpago -> do
+        command <- almostSpago.psnp .:? "command"
         version <- almostSpago.psnp .: "version"
-        pure $ almostSpago { psnp = { version } }
+        pure $ almostSpago { psnp = { command, version } }
 
 type Package
   = { dependencies :: Array String
@@ -152,8 +156,8 @@ main = do
                       else
                         export PATH=$PATH
                         node $out/lib/index.js ${args}
-                      fi" > $out/bin/@{name}
-                      chmod +x $out/bin/@{name}
+                      fi" > $out/bin/@{command}
+                      chmod +x $out/bin/@{command}
                   '';
                 in
                   with pkgs;
@@ -192,6 +196,7 @@ main = do
               , projectVersion: version
               , attribute
               , fetchGits
+              , command: fromMaybe spago.name spago.psnp.command
               , name: spago.name
               , version: spago.psnp.version
               , srcDir
