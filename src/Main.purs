@@ -60,7 +60,7 @@ foreign import tmpdir :: Effect String
 main :: Effect Unit
 main = do
   projectName <- (Process.argv <#> (_ !! 2)) >>= maybe (throw "No name was given for this project") pure
-  version <- (Process.argv <#> (_ !! 3)) >>= maybe (throw "No psnp version was specified") pure
+  version <- (Process.argv <#> (_ !! 3)) >>= maybe (throw $ "No " <> projectName <> " version was specified") pure
   let
     getRefRev ::
       { name :: String
