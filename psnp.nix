@@ -483,5 +483,5 @@
         inherit mkInstallPhase;
       };
 
-      installPhase = mkInstallPhase "\$@";
+      installPhase = mkInstallPhase "\\$@";
     }

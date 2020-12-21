@@ -189,7 +189,7 @@ main = do
                       inherit mkInstallPhase;
                     };
 
-                    installPhase = mkInstallPhase "\$@";
+                    installPhase = mkInstallPhase "\\$@";
                   }
               """
               { projectName
