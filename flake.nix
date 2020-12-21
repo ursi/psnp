@@ -42,6 +42,14 @@
                 dhall-json
                 purescript
                 nodejs
+                (writeShellScriptBin
+                  "psnp"
+                  ''
+                  spago bundle-app
+                  node . ${name} ${version}
+                  rm index.js
+                  ''
+                )
                 spago
               ];
             };
