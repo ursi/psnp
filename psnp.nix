@@ -445,8 +445,12 @@
         mkdir -p $out/bin
         mkdir -p $out/lib
         cp index.js $out/lib
-        echo "export PATH=$PATH
-        node $out/lib/index.js ${args}" > $out/bin/psnp
+        echo "if [[ \$1 = --version ]]; then
+          echo $version
+        else
+          export PATH=$PATH
+          node $out/lib/index.js ${args}
+        fi" > $out/bin/psnp
         chmod +x $out/bin/psnp
     '';
   in

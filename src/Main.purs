@@ -132,8 +132,12 @@ main = do
                       mkdir -p $out/bin
                       mkdir -p $out/lib
                       cp index.js $out/lib
-                      echo "export PATH=$PATH
-                      node $out/lib/index.js ${args}" > $out/bin/@{name}
+                      echo "if [[ \$1 = --version ]]; then
+                        echo $version
+                      else
+                        export PATH=$PATH
+                        node $out/lib/index.js ${args}
+                      fi" > $out/bin/@{name}
                       chmod +x $out/bin/@{name}
                   '';
                 in
