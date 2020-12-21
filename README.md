@@ -4,9 +4,11 @@ Generate Nix packages from PureScript projects.
 
 ## How to use
 
-- Set up a PureScript project (using Spago) with a `Main` module that exports a `main` effect.
-- Make sure you have a `version` property in your `spago.dhall`. This will be used for the Nix package version.
-- Run `psnp`. This will generate a file called `psnp.nix` which is a function that returns a derivation for your package.
+- Set up a PureScript project with a `Main` module that exports a `main` effect.
+- `psnp` uses values from your `spago.dhall` to generate code.
+	- A sanitized version of `(./spago.dhall).name` is used for the `pname` of the derivation.
+	- `(.spago.dhall).psnp.version` is used for the `version` of the derivation.
+- Once the appropriate values have been added to your `spago.dhall`, run `psnp`. This will generate a file called `psnp.nix` which is a function that returns a derivation for your package.
 - In your `flake.nix`/`default.nix`, import `psnp.nix` and call it with `lib` and `pkgs` arguments. You can use [.overrideAttrs](https://nixos.org/manual/nixpkgs/stable/#sec-pkg-overrideAttrs) to extend the derivation. For an example, check the [flake.nix](https://github.com/ursi/psnp/blob/master/flake.nix) for this project.
 - The generated executable automatically supports a `--version` flag which `echo`s the value in `(./spago.dhall).psnp.version`.
 

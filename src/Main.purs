@@ -1,7 +1,15 @@
 module Main (main) where
 
 import MasonPrelude
-import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)
+import Data.Argonaut
+  ( Json
+  , JsonDecodeError
+  , (.:)
+  , (.:?)
+  , decodeJson
+  , parseJson
+  , printJsonDecodeError
+  )
 import Data.Array ((!!))
 import Data.List ((:))
 import Data.Set (Set)
@@ -27,8 +35,15 @@ type Spago
     , name :: String
     , packages :: Object Package
     , sources :: Array String
-    , version :: String
+    , psnp :: { version :: String }
     }
+
+decodeSpago :: Json -> JsonDecodeError \/ Spago
+decodeSpago =
+  decodeJson
+    >=> \almostSpago -> do
+        version <- almostSpago.psnp .: "version"
+        pure $ almostSpago { psnp = { version } }
 
 type Package
   = { dependencies :: Array String
@@ -64,7 +79,7 @@ main = do
         Right _ -> pure unit
     ) do
     data_ <- CP.exec "dhall-to-json --file spago.dhall" CP.defaultExecOptions
-    nix <- case decodeJson =<< parseJson data_ of
+    nix <- case decodeSpago =<< parseJson data_ of
       Right (spago :: Spago) -> do
         { fetchGits, compilerPaths } <-
           foldl
@@ -178,7 +193,7 @@ main = do
               , attribute
               , fetchGits
               , name: spago.name
-              , version: spago.version
+              , version: spago.psnp.version
               , srcDir
               , compilerPaths
               }

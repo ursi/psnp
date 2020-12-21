@@ -12,5 +12,5 @@ in  { name = name-version.name
       ]
     , packages = ./packages.dhall
     , sources = [ "src/**/*.purs" ]
-    , version = name-version.version
+    , psnp.version = name-version.version
     }
