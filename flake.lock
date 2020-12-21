@@ -1,5 +1,20 @@
 {
   "nodes": {
+    "dhall-to-nix": {
+      "locked": {
+        "lastModified": 1608522766,
+        "narHash": "sha256-cFtBOcAc1PWX6I72s3cEUA9ruVlTaUbvzYK+NSxr4SY=",
+        "owner": "ursi",
+        "repo": "dhall-to-nix",
+        "rev": "82a409a404e6b29067d4ef98b580d79d7c41980f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ursi",
+        "repo": "dhall-to-nix",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1605370193,
@@ -45,6 +60,7 @@
     },
     "root": {
       "inputs": {
+        "dhall-to-nix": "dhall-to-nix",
         "nixpkgs": "nixpkgs",
         "utils": "utils"
       }

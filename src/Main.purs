@@ -2,6 +2,7 @@ module Main (main) where
 
 import MasonPrelude
 import Data.Argonaut (decodeJson, parseJson, printJsonDecodeError)
+import Data.Array ((!!))
 import Data.List ((:))
 import Data.Set (Set)
 import Data.Set as Set
@@ -10,6 +11,7 @@ import Foreign.Object (Object)
 import Foreign.Object as Obj
 import Git as Git
 import Node.Path as Path
+import Node.Process as Process
 import Substitute (class Homogeneous, createSubstituter)
 import Substitute as Sub
 import Task (Task, throwError)
@@ -19,12 +21,6 @@ import Task.File as File
 
 substitute :: ∀ r. Homogeneous r String => String -> Record r -> String
 substitute = createSubstituter (Sub.defaultOptions { marker = '@' })
-
-version :: String
-version = "0.2.0"
-
-projectName :: String
-projectName = "psnp"
 
 type Spago
   = { dependencies :: Array String
@@ -44,6 +40,23 @@ foreign import tmpdir :: Effect String
 
 main :: Effect Unit
 main = do
+  projectName <- (Process.argv <#> (_ !! 2)) >>= maybe (throw "No name was given for this project") pure
+  version <- (Process.argv <#> (_ !! 3)) >>= maybe (throw "No psnp version was specified") pure
+  let
+    getRefRev ::
+      { name :: String
+      , repo :: String
+      , ref :: String
+      , tmp :: String
+      } ->
+      Task Error { ref :: String, rev :: String }
+    getRefRev { name, repo, ref, tmp } = do
+      let
+        path = Path.concat [ tmp, projectName <> "_" <> name ]
+      Git.clone repo path
+      refRev <- Git.getRefRev path ref
+      _ <- CP.exec ("rm -r " <> path) CP.defaultExecOptions
+      pure refRev
   tmp <- tmpdir
   Task.capture
     ( case _ of
@@ -167,21 +180,6 @@ attribute = "psPackages"
 
 srcDir :: String
 srcDir = "sources/"
-
-getRefRev ::
-  { name :: String
-  , repo :: String
-  , ref :: String
-  , tmp :: String
-  } ->
-  Task Error { ref :: String, rev :: String }
-getRefRev { name, repo, ref, tmp } = do
-  let
-    path = Path.concat [ tmp, projectName <> "_" <> name ]
-  Git.clone repo path
-  refRev <- Git.getRefRev path ref
-  _ <- CP.exec ("rm -r " <> path) CP.defaultExecOptions
-  pure refRev
 
 getAllDeps :: Object Package -> Array String -> Set String
 getAllDeps packages = foldl go mempty
