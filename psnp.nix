@@ -440,6 +440,15 @@
         ref = "refs/tags/v4.0.0";
       };
     };
+
+    mkInstallPhase = args: ''
+        mkdir -p $out/bin
+        mkdir -p $out/lib
+        cp index.js $out/lib
+        echo "export PATH=$PATH
+        node $out/lib/index.js ${args}" > $out/bin/psnp
+        chmod +x $out/bin/psnp
+    '';
   in
     with pkgs;
     stdenv.mkDerivation {
@@ -466,12 +475,9 @@
         purs bundle "output/*/*.js" -m Main --main Main -o index.js
       '';
 
-      installPhase = ''
-        mkdir -p $out/bin
-        mkdir -p $out/lib
-        cp index.js $out/lib
-        echo "export PATH=$PATH
-        node $out/lib/index.js \$@" > $out/bin/psnp
-        chmod +x $out/bin/psnp
-      '';
+      passthru = {
+        inherit mkInstallPhase;
+      };
+
+      installPhase = mkInstallPhase "\$@";
     }

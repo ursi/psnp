@@ -127,6 +127,15 @@ main = do
                   @{attribute} = {
                     @{fetchGits}
                   };
+
+                  mkInstallPhase = args: ''
+                      mkdir -p $out/bin
+                      mkdir -p $out/lib
+                      cp index.js $out/lib
+                      echo "export PATH=$PATH
+                      node $out/lib/index.js ${args}" > $out/bin/@{name}
+                      chmod +x $out/bin/@{name}
+                  '';
                 in
                   with pkgs;
                   stdenv.mkDerivation {
@@ -153,14 +162,11 @@ main = do
                       purs bundle "output/*/*.js" -m Main --main Main -o index.js
                     '';
 
-                    installPhase = ''
-                      mkdir -p $out/bin
-                      mkdir -p $out/lib
-                      cp index.js $out/lib
-                      echo "export PATH=$PATH
-                      node $out/lib/index.js \$@" > $out/bin/@{name}
-                      chmod +x $out/bin/@{name}
-                    '';
+                    passthru = {
+                      inherit mkInstallPhase;
+                    };
+
+                    installPhase = mkInstallPhase "\$@";
                   }
               """
               { projectName
