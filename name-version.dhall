@@ -1,1 +1,1 @@
-{ name = "psnp", version = "0.2.1" }
+{ name = "psnp", version = "0.3.0" }
