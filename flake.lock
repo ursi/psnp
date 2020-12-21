@@ -2,11 +2,11 @@
   "nodes": {
     "dhall-to-nix": {
       "locked": {
-        "lastModified": 1608522766,
-        "narHash": "sha256-cFtBOcAc1PWX6I72s3cEUA9ruVlTaUbvzYK+NSxr4SY=",
+        "lastModified": 1608524608,
+        "narHash": "sha256-QFmam3Ni39j88IYaS5eJvMIOm0b3YQ+bTn1rCtXLsyc=",
         "owner": "ursi",
         "repo": "dhall-to-nix",
-        "rev": "82a409a404e6b29067d4ef98b580d79d7c41980f",
+        "rev": "dc546c3941947cc4e48b64fa12bbf97bde240c86",
         "type": "github"
       },
       "original": {
