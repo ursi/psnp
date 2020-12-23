@@ -5,7 +5,7 @@
     utils.defaultSystems
       (pkgs: with pkgs;
         let
-          inherit (dhall-to-nix.fromDhall pkgs ./name-version.dhall) name version;
+          inherit (dhall-to-nix pkgs ./name-version.dhall) name version;
         in
           {
             defaultPackage =
