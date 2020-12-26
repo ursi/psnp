@@ -25,6 +25,7 @@
                       meta = {
                         description = "PureScript Nix Packager - generate nix packages from PureScript projects";
                         homepage = "https://github.com/ursi/${name}";
+
                         maintainers = [
                           {
                             name = "Mason Mackaman";
