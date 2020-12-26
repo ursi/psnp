@@ -1,4 +1,5 @@
-{
+rec {
+  description = "PureScript Nix Packager - generate nix packages from PureScript projects";
   inputs.dhall-to-nix.url = "github:ursi/dhall-to-nix";
 
   outputs = { self, nixpkgs, utils, dhall-to-nix }:
@@ -23,7 +24,7 @@
                       installPhase = base.mkInstallPhase "${name} ${version}";
 
                       meta = {
-                        description = "PureScript Nix Packager - generate nix packages from PureScript projects";
+                        inherit description;
                         homepage = "https://github.com/ursi/${name}";
 
                         maintainers = [
