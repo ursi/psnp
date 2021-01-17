@@ -48,6 +48,8 @@ rec {
               ];
 
               shellHook = ''
+                echo 'To run the current PureScript code as ${name}, just use the "${name}" command provided by the "shellHook".'
+
                 ${name} () {
                   spago bundle-app
                   node . ${name} ${version}
