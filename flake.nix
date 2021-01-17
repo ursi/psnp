@@ -44,16 +44,16 @@ rec {
                 dhall-json
                 purescript
                 nodejs
-                (writeShellScriptBin
-                  "psnp"
-                  ''
+                spago
+              ];
+
+              shellHook = ''
+                ${name} () {
                   spago bundle-app
                   node . ${name} ${version}
                   rm index.js
-                  ''
-                )
-                spago
-              ];
+                }
+              '';
             };
           }
       )
