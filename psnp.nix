@@ -469,7 +469,7 @@
         ${
           builtins.concatStringsSep ";"
           (map
-            (name: "ln -rs ${psPackages.${name}} sources/${name}")
+            (name: "ln -s ${psPackages.${name}} sources/${name}")
             (builtins.attrNames psPackages)
           )
         }

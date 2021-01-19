@@ -175,7 +175,7 @@ main = do
                       ${
                         builtins.concatStringsSep ";"
                         (map
-                          (name: "ln -rs ${psPackages.${name}} @{srcDir}${name}")
+                          (name: "ln -s ${psPackages.${name}} @{srcDir}${name}")
                           (builtins.attrNames psPackages)
                         )
                       }
