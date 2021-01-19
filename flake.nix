@@ -4,9 +4,9 @@ rec {
 
   outputs = { self, nixpkgs, utils, dhall-to-nix }:
     utils.defaultSystems
-      ({ pkgs, ... }: with pkgs;
+      ({ pkgs, system }: with pkgs;
         let
-          inherit (dhall-to-nix pkgs ./name-version.dhall) name version;
+          inherit (dhall-to-nix system ./name-version.dhall) name version;
         in
           {
             defaultPackage =

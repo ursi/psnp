@@ -1,12 +1,15 @@
 {
   "nodes": {
     "dhall-to-nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
       "locked": {
-        "lastModified": 1608695798,
-        "narHash": "sha256-uUH61jsNUmttGo/So78O3qabaUoQWMDOsgs/7V/fEw0=",
+        "lastModified": 1611072635,
+        "narHash": "sha256-4qa2juIvm5jSvlBfbOgDjH6iFn88eQDo5xA+QDWrB0s=",
         "owner": "ursi",
         "repo": "dhall-to-nix",
-        "rev": "0e593bfae760fcef782c00f7e6beb6687d64ce26",
+        "rev": "2dbe60a8b66d500be6bf2c88e7780a6b77f069db",
         "type": "github"
       },
       "original": {
@@ -32,6 +35,20 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1610942247,
+        "narHash": "sha256-PKo1ATAlC6BmfYSRmX0TVmNoFbrec+A5OKcabGEu2yU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "7d71001b796340b219d1bfa8552c81995017544a",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1607660847,
         "narHash": "sha256-hTjqlKirCgD8mhJHj5btJlhRdL3WTt2zi6x6MllDzwM=",
         "owner": "NixOS",
@@ -44,7 +61,7 @@
         "type": "indirect"
       }
     },
-    "nixpkgs_2": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1608723372,
         "narHash": "sha256-XoCD827n1+bBPVxjKFmAikh7KSIspj9BBj2vnWhtTC4=",
@@ -61,14 +78,14 @@
     "root": {
       "inputs": {
         "dhall-to-nix": "dhall-to-nix",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "utils": "utils"
       }
     },
     "utils": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1608846826,
