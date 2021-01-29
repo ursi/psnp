@@ -151,20 +151,25 @@ main = do
                       mkdir -p @{bin}
                       mkdir -p @{lib}
                       cp @{compilerOutput} @{lib}
-                      echo "if [[ \$1 = --version ]]; then
+                      makeWrapper ${exe args} @{bin}/@{command} \
+                        --set PATH $PATH \
+                        --set out $out
+                  '';
+
+                  exe = args: pkgs.writeScript "exe"
+                    ''
+                      if [[ $1 = --version ]]; then
                         echo @{version}
                       else
-                        export PATH=$PATH
                         node @{lib}/@{compilerOutput} ${args}
-                      fi" > @{bin}/@{command}
-                      chmod +x @{bin}/@{command}
-                  '';
+                      fi
+                    '';
                 in
                   with pkgs;
                   stdenv.mkDerivation {
                     pname = lib.strings.sanitizeDerivationName "@{name}";
                     version = "@{version}";
-                    nativeBuildInputs = [ purescript ];
+                    nativeBuildInputs = [ makeWrapper purescript ];
                     buildInputs = [ nodejs ];
                     dontUnpack = true;
                     src = ./src;
@@ -189,7 +194,7 @@ main = do
                       inherit mkInstallPhase;
                     };
 
-                    installPhase = mkInstallPhase "\\$@";
+                    installPhase = mkInstallPhase "$@";
                   }
               """
               { projectName
