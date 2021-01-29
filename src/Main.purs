@@ -1,15 +1,6 @@
 module Main (main) where
 
 import MasonPrelude
-import Data.Argonaut
-  ( Json
-  , JsonDecodeError
-  , (.:)
-  , (.:?)
-  , decodeJson
-  , parseJson
-  , printJsonDecodeError
-  )
 import Data.Array ((!!))
 import Data.List ((:))
 import Data.Set (Set)
@@ -20,6 +11,7 @@ import Foreign.Object as Obj
 import Git as Git
 import Node.Path as Path
 import Node.Process as Process
+import Simple.JSON (readJSON)
 import Substitute (class Homogeneous, createSubstituter)
 import Substitute as Sub
 import Task (Task, throwError)
@@ -40,14 +32,6 @@ type Spago
         , version :: String
         }
     }
-
-decodeSpago :: Json -> JsonDecodeError \/ Spago
-decodeSpago =
-  decodeJson
-    >=> \almostSpago -> do
-        command <- almostSpago.psnp .:? "command"
-        version <- almostSpago.psnp .: "version"
-        pure $ almostSpago { psnp = { command, version } }
 
 type Package
   = { dependencies :: Array String
@@ -83,7 +67,7 @@ main = do
         Right _ -> pure unit
     ) do
     data_ <- CP.exec "dhall-to-json --file spago.dhall" CP.defaultExecOptions
-    nix <- case decodeSpago =<< parseJson data_ of
+    nix <- case readJSON data_ of
       Right (spago :: Spago) -> do
         { fetchGits, compilerPaths } <-
           foldl
@@ -210,7 +194,7 @@ main = do
               , srcDir
               , compilerPaths
               }
-      Left decodeError -> throwError $ error $ printJsonDecodeError decodeError
+      Left decodeError -> throwError $ error $ show decodeError
     File.write (projectName <> ".nix") nix
 
 attribute :: String

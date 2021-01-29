@@ -2,10 +2,10 @@ let name-version = ./name-version.dhall
 
 in  { name = name-version.name
     , dependencies =
-      [ "argonaut"
-      , "exceptions"
+      [ "exceptions"
       , "mason-prelude"
       , "node-process"
+      , "simple-json"
       , "substitute"
       , "task-file"
       , "task-node-child-process"
