@@ -148,16 +148,16 @@ main = do
                   };
 
                   mkInstallPhase = args: ''
-                      mkdir -p $out/bin
-                      mkdir -p $out/lib
-                      cp index.js $out/lib
+                      mkdir -p @{bin}
+                      mkdir -p @{lib}
+                      cp @{compilerOutput} @{lib}
                       echo "if [[ \$1 = --version ]]; then
                         echo $version
                       else
                         export PATH=$PATH
-                        node $out/lib/index.js ${args}
-                      fi" > $out/bin/@{command}
-                      chmod +x $out/bin/@{command}
+                        node @{lib}/@{compilerOutput} ${args}
+                      fi" > @{bin}/@{command}
+                      chmod +x @{bin}/@{command}
                   '';
                 in
                   with pkgs;
@@ -182,7 +182,7 @@ main = do
 
                       purs compile @{compilerPaths} "$src/**/*.purs"
 
-                      purs bundle "output/*/*.js" -m Main --main Main -o index.js
+                      purs bundle "output/*/*.js" -m Main --main Main -o @{compilerOutput}
                     '';
 
                     passthru = {
@@ -196,6 +196,9 @@ main = do
               , projectVersion: version
               , attribute
               , fetchGits
+              , lib: "$out/lib"
+              , bin: "$out/bin"
+              , compilerOutput: "index.js"
               , command: fromMaybe spago.name spago.psnp.command
               , name: spago.name
               , version: spago.psnp.version
