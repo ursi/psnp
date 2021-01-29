@@ -152,7 +152,7 @@ main = do
                       mkdir -p @{lib}
                       cp @{compilerOutput} @{lib}
                       echo "if [[ \$1 = --version ]]; then
-                        echo $version
+                        echo @{version}
                       else
                         export PATH=$PATH
                         node @{lib}/@{compilerOutput} ${args}
