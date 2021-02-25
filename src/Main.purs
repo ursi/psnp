@@ -140,7 +140,7 @@ main = do
                         --set out $out
                   '';
 
-                  exe = args: pkgs.writeScript "exe"
+                  exe = args: pkgs.writeShellScript "exe"
                     ''
                       if [[ $1 = --version ]]; then
                         echo @{version}
