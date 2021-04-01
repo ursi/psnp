@@ -21,8 +21,8 @@ getRefRev :: Path -> String -> Task Error { ref :: String, rev :: String }
 getRefRev path ref' =
   CP.exec ("git show-ref " <> ref')
     (CP.defaultExecOptions { cwd = Just path })
-    <#> String.takeWhile ((/=) '\n')
-    .> String.split (Pattern " ")
-    >>= \split -> case split of
-        [ rev, ref ] -> pure { ref, rev }
-        _ -> throwError $ error $ "refrev error: " <> show split
+  <#> String.takeWhile ((/=) '\n')
+  .> String.split (Pattern " ")
+  >>= \split -> case split of
+      [ rev, ref ] -> pure { ref, rev }
+      _ -> throwError $ error $ "refrev error: " <> show split
