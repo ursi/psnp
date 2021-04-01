@@ -17,12 +17,12 @@ type Path
 clone :: Repo -> Path -> Task Error Unit
 clone repo path = void $ CP.exec ("git clone " <> repo <> " " <> path) CP.defaultExecOptions
 
-getRefRev :: Path -> String -> Task Error { ref :: String, rev :: String }
-getRefRev path ref' =
-  CP.exec ("git show-ref " <> ref')
+getRev :: Path -> String -> Task Error String
+getRev path ref =
+  CP.exec ("git show-ref " <> ref)
     (CP.defaultExecOptions { cwd = Just path })
   <#> String.takeWhile ((/=) '\n')
   .> String.split (Pattern " ")
   >>= \split -> case split of
-      [ rev, ref ] -> pure { ref, rev }
+      [ rev, _ ] -> pure rev
       _ -> throwError $ error $ "refrev error: " <> show split

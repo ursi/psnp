@@ -5,6 +5,7 @@ import Data.Array ((!!))
 import Data.List ((:))
 import Data.Set (Set)
 import Data.Set as Set
+import Data.String as String
 import Effect.Exception (Error, error)
 import Foreign.Object (Object)
 import Foreign.Object as Obj
@@ -14,7 +15,7 @@ import Node.Process as Process
 import Simple.JSON (readJSON)
 import Substitute (class Homogeneous, createSubstituter)
 import Substitute as Sub
-import Task (Task, throwError)
+import Task (Task, (>>!), throwError)
 import Task as Task
 import Task.ChildProcess as CP
 import Task.File as File
@@ -44,22 +45,29 @@ foreign import tmpdir :: Effect String
 main :: Effect Unit
 main = do
   projectName <- (Process.argv <#> (_ !! 2)) >>= maybe (throw "No name was given for this project") pure
-  version <- (Process.argv <#> (_ !! 3)) >>= maybe (throw $ "No " <> projectName <> " version was specified") pure
+  projectVersion <- (Process.argv <#> (_ !! 3)) >>= maybe (throw $ "No " <> projectName <> " version was specified") pure
   let
-    getRefRev ::
+    getRev ::
       { name :: String
       , repo :: String
-      , ref :: String
+      , version :: String
       , tmp :: String
       } ->
-      Task Error { ref :: String, rev :: String }
-    getRefRev { name, repo, ref, tmp } = do
+      Task Error String
+    getRev { name, repo, version, tmp } = do
       let
         path = Path.concat [ tmp, projectName <> "_" <> name ]
       Git.clone repo path
-      refRev <- Git.getRefRev path ref
+      rev <-
+        Git.getRev path version
+        >>! \e ->
+              if String.length version == 40 then
+                pure version
+              else
+                throwError e
+
       _ <- CP.exec ("rm -r " <> path) CP.defaultExecOptions
-      pure refRev
+      pure rev
   tmp <- tmpdir
   Task.capture
     ( case _ of
@@ -74,17 +82,16 @@ main = do
               (\acc name ->
                  (Obj.lookup name spago.packages
                   <#> \package ->
-                        getRefRev
+                        getRev
                           { name
                           , repo: package.repo
-                          , ref: package.version
+                          , version: package.version
                           , tmp
                           }
-                        <#> \{ ref, rev } ->
+                        <#> \rev ->
                               { name
                               , url: package.repo
                               , rev
-                              , ref
                               }
                  )
                  : acc
@@ -105,7 +112,6 @@ main = do
                                    @{name} = builtins.fetchGit {
                                      url = "@{url}";
                                      rev = "@{rev}";
-                                     ref = "@{ref}";
                                    };
                                    """
                                    fgd
@@ -182,7 +188,7 @@ main = do
                    }
                """
                { projectName
-               , projectVersion: version
+               , projectVersion
                , attribute
                , fetchGits
                , lib: "$out/lib"
