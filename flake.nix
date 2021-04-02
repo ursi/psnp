@@ -11,10 +11,7 @@ rec
            { defaultPackage =
                let
                  base =
-                   import (./. + "/${name}.nix")
-                     { inherit (nixpkgs) lib;
-                       inherit pkgs;
-                     };
+                   import (./. + "/${name}.nix") pkgs;
                in
                  base.overrideAttrs
                    (old:
