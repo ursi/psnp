@@ -111,9 +111,9 @@ main = do
                                    """
                                    @{name} =
                                      builtins.fetchGit
-                                        { url = "@{url}";
-                                          rev = "@{rev}";
-                                        };
+                                       { url = "@{url}";
+                                         rev = "@{rev}";
+                                       };
                                    """
                                    fgd
                                  : acc.fetchGits
