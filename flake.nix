@@ -7,32 +7,35 @@ rec
       ({ pkgs, system }: with pkgs;
          let
            inherit (dhall-to-nix system ./name-version.dhall) name version;
+
+           psnp =
+             let
+               base =
+                 import (./. + "/${name}.nix") pkgs;
+             in
+               base.overrideAttrs
+                 (old:
+                    { buildInputs = [ dhall-json git ] ++ old.buildInputs;
+
+                      installPhase = base.mkInstallPhase "${name} ${version}";
+
+                      meta =
+                        { inherit description;
+                          homepage = "https://github.com/ursi/${name}";
+
+                          maintainers =
+                            [ { name = "Mason Mackaman";
+                                email = "masondeanm@aol.com";
+                                github = "ursi";
+                                githubId = "17836748";
+                              }
+                            ];
+                        };
+                    }
+                 );
          in
-           { defaultPackage =
-               let
-                 base =
-                   import (./. + "/${name}.nix") pkgs;
-               in
-                 base.overrideAttrs
-                   (old:
-                      { buildInputs = [ dhall-json git ] ++ old.buildInputs;
-
-                        installPhase = base.mkInstallPhase "${name} ${version}";
-
-                        meta =
-                          { inherit description;
-                            homepage = "https://github.com/ursi/${name}";
-
-                            maintainers =
-                              [ { name = "Mason Mackaman";
-                                  email = "masondeanm@aol.com";
-                                  github = "ursi";
-                                  githubId = "17836748";
-                                }
-                              ];
-                          };
-                      }
-                   );
+           { defaultApp = psnp;
+             defaultPackage = psnp;
 
              devShell =
                mkShell
