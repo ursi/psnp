@@ -427,7 +427,7 @@ pkgs:
       pkgs.writeShellScript "exe"
         ''
         if [[ $1 = --version ]]; then
-          echo 0.4.0
+          echo 0.4.1
         else
           node $out/lib/index.js ${args}
         fi
@@ -436,7 +436,7 @@ pkgs:
     with pkgs;
     stdenv.mkDerivation
       { pname = lib.strings.sanitizeDerivationName "psnp";
-        version = "0.4.0";
+        version = "0.4.1";
         nativeBuildInputs = [ makeWrapper purescript ];
         buildInputs = [ nodejs ];
         dontUnpack = true;
