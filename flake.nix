@@ -13,52 +13,52 @@ rec
                base =
                  import (./. + "/${name}.nix") pkgs;
              in
-               base.overrideAttrs
-                 (old:
-                    { buildInputs = [ dhall-json git ] ++ old.buildInputs;
+             base.overrideAttrs
+               (old:
+                  { buildInputs = [ dhall-json git ] ++ old.buildInputs;
 
-                      installPhase = base.mkInstallPhase "${name} ${version}";
+                    installPhase = base.mkInstallPhase "${name} ${version}";
 
-                      meta =
-                        { inherit description;
-                          homepage = "https://github.com/ursi/${name}";
+                    meta =
+                      { inherit description;
+                        homepage = "https://github.com/ursi/${name}";
 
-                          maintainers =
-                            [ { name = "Mason Mackaman";
-                                email = "masondeanm@aol.com";
-                                github = "ursi";
-                                githubId = "17836748";
-                              }
-                            ];
-                        };
-                    }
-                 );
+                        maintainers =
+                          [ { name = "Mason Mackaman";
+                              email = "masondeanm@aol.com";
+                              github = "ursi";
+                              githubId = "17836748";
+                            }
+                          ];
+                      };
+                  }
+               );
          in
-           { defaultApp = psnp;
-             defaultPackage = psnp;
+         { defaultApp = psnp;
+           defaultPackage = psnp;
 
-             devShell =
-               mkShell
-                 { buildInputs =
-                     [ dhall
-                       dhall-json
-                       purescript
-                       nodejs
-                       spago
-                     ];
+           devShell =
+             mkShell
+               { buildInputs =
+                   [ dhall
+                     dhall-json
+                     purescript
+                     nodejs
+                     spago
+                   ];
 
-                   shellHook =
-                     ''
-                     echo 'To run the current PureScript code as ${name}, just use the "${name}" command provided by the "shellHook".'
+                 shellHook =
+                   ''
+                   echo 'To run the current PureScript code as ${name}, just use the "${name}" command provided by the "shellHook".'
 
-                     ${name}() {
-                       spago bundle-app
-                       node . ${name} ${version}
-                       rm index.js
-                     }
-                     '';
-                 };
-           }
+                   ${name}() {
+                     spago bundle-app
+                     node . ${name} ${version}
+                     rm index.js
+                   }
+                   '';
+               };
+         }
       )
       nixpkgs;
 }

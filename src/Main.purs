@@ -70,9 +70,9 @@ main = do
       pure rev
   tmp <- tmpdir
   Task.capture
-    ( case _ of
-        Left error -> logShow error
-        Right _ -> pure unit
+    (case _ of
+       Left error -> logShow error
+       Right _ -> pure unit
     ) do
       data_ <- CP.exec "dhall-to-json --file spago.dhall" CP.defaultExecOptions
       nix <- case readJSON data_ of
@@ -106,19 +106,19 @@ main = do
                            let
                              dir = srcDir <> fgd.name <> "/"
                            in
-                             { fetchGits:
-                                 substitute
-                                   """
-                                   @{name} =
-                                     builtins.fetchGit
-                                       { url = "@{url}";
-                                         rev = "@{rev}";
-                                       };
-                                   """
-                                   fgd
-                                 : acc.fetchGits
-                             , compilerPaths: ("\"" <> dir <> "src/**/*.purs\"") : acc.compilerPaths
-                             }
+						   { fetchGits:
+							   substitute
+								 """
+								 @{name} =
+								   builtins.fetchGit
+									 { url = "@{url}";
+									   rev = "@{rev}";
+									 };
+								 """
+								 fgd
+							   : acc.fetchGits
+						   , compilerPaths: ("\"" <> dir <> "src/**/*.purs\"") : acc.compilerPaths
+						   }
                         )
                         { fetchGits: Nil, compilerPaths: Nil }
                       .> \{ fetchGits, compilerPaths } ->
@@ -160,34 +160,34 @@ main = do
                        fi
                        '';
                  in
-                   with pkgs;
-                   stdenv.mkDerivation
-                     { pname = lib.strings.sanitizeDerivationName "@{name}";
-                       version = "@{version}";
-                       nativeBuildInputs = [ makeWrapper purescript ];
-                       buildInputs = [ nodejs ];
-                       dontUnpack = true;
-                       src = ./src;
+				 with pkgs;
+				 stdenv.mkDerivation
+				   { pname = lib.strings.sanitizeDerivationName "@{name}";
+					 version = "@{version}";
+					 nativeBuildInputs = [ makeWrapper purescript ];
+					 buildInputs = [ nodejs ];
+					 dontUnpack = true;
+					 src = ./src;
 
-                       buildPhase =
-                         ''
-                         mkdir @{srcDir}
+					 buildPhase =
+					   ''
+					   mkdir @{srcDir}
 
-                         ${builtins.concatStringsSep ";"
-                             (map
-                               (name: "ln -s ${psPackages.${name}} @{srcDir}${name}")
-                               (builtins.attrNames psPackages)
-                             )
-                         }
+					   ${builtins.concatStringsSep ";"
+						   (map
+							 (name: "ln -s ${psPackages.${name}} @{srcDir}${name}")
+							 (builtins.attrNames psPackages)
+						   )
+					   }
 
-                         purs compile @{compilerPaths} "$src/**/*.purs"
+					   purs compile @{compilerPaths} "$src/**/*.purs"
 
-                         purs bundle "output/*/*.js" -m Main --main Main -o @{compilerOutput}
-                         '';
+					   purs bundle "output/*/*.js" -m Main --main Main -o @{compilerOutput}
+					   '';
 
-                       passthru = { inherit mkInstallPhase; };
-                       installPhase = mkInstallPhase "$@";
-                     }
+					 passthru = { inherit mkInstallPhase; };
+					 installPhase = mkInstallPhase "$@";
+				   }
                """
                { projectName
                , projectVersion
