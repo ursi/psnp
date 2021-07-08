@@ -1,3 +1,5 @@
+This project is deprecated, [use this instead!](https://github.com/ursi/purs-nix)
+
 # PureScript Nix Packager
 
 Generate Nix packages from PureScript projects.
